@@ -1,0 +1,15 @@
+# Motolog（バイクのメンテナンス記録）
+# Copyright (C) 2026 合同会社FIA. All rights reserved.
+# 作成：Takeshi Hakamata
+#
+# /etc/systemd/system/motolog-backup.timer にコピーして使う（サーバ作業手順書 P10-5）。
+
+[Unit]
+Description=Run Motolog backup every day at 03:00
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

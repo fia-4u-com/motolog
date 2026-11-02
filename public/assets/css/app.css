@@ -1,0 +1,256 @@
+/*
+ * Motolog（バイクのメンテナンス記録）
+ * Copyright (C) 2026 合同会社FIA. All rights reserved.
+ * 作成：Takeshi Hakamata
+ *
+ * 画面のデザイン。PC とスマホは画面の幅（768px）で切り替える（詳細設計書 4_画面レイアウト）。
+ */
+
+:root {
+  --c-main: #1f4e78;
+  --c-main-light: #ddebf7;
+  --c-text: #1d1d1f;
+  --c-sub: #666;
+  --c-line: #d0d4da;
+  --c-bg: #f5f6f8;
+  --c-card: #fff;
+  --c-error: #c00000;
+  --c-unreplaced: #8a6d00;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Sans", "Meiryo UI", "Yu Gothic UI", system-ui, sans-serif;
+  font-size: 15px;
+  color: var(--c-text);
+  background: var(--c-bg);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+a { color: var(--c-main); }
+
+button, .btn, input, select {
+  font: inherit;
+}
+
+button, .btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--c-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:disabled { opacity: .45; cursor: default; }
+
+.btn-primary { background: var(--c-main); border-color: var(--c-main); color: #fff; }
+.btn-danger { background: #fff; border-color: var(--c-error); color: var(--c-error); }
+.btn-link { border: none; background: none; color: #fff; text-decoration: underline; padding: 4px; }
+
+input[type="text"], input[type="password"], input[type="number"], input[type="date"], input[type="month"], select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--c-line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+[hidden] { display: none !important; }
+
+/* ---------------- ヘッダー ---------------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+  background: var(--c-main);
+  color: #fff;
+}
+
+.brand { color: #fff; font-weight: bold; font-size: 18px; text-decoration: none; }
+
+.app-main { max-width: 1280px; margin: 0 auto; padding: 12px; }
+
+/* ---------------- 共通の部品 ---------------- */
+
+.card {
+  background: var(--c-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.card h1 { font-size: 18px; margin: 0 0 12px; }
+
+.form-stack { display: flex; flex-direction: column; gap: 4px; }
+.form-stack label { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.form-stack label.check { flex-direction: row; align-items: center; gap: 6px; }
+
+.form-buttons, .dialog-buttons { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.dialog-buttons .spacer { flex: 1; }
+
+.message { padding: 8px 10px; border-radius: 6px; margin: 8px 0; }
+.message.error { background: #fdecec; color: var(--c-error); }
+.field-error { color: var(--c-error); font-size: 13px; margin: 0; min-height: 0; }
+.field-error:empty { display: none; }
+.liters-preview { margin: 0; font-size: 18px; font-weight: bold; color: var(--c-main); }
+.liters-preview:empty { display: none; }
+.liters-preview.invalid { font-size: 13px; font-weight: normal; color: var(--c-error); }
+
+fieldset { border: 1px solid var(--c-line); border-radius: 6px; margin: 8px 0 0; padding: 8px 10px; }
+legend { font-size: 13px; color: var(--c-sub); }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, .82);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  max-width: 90vw;
+  z-index: 100;
+}
+
+/* ---------------- ログイン（S01） ---------------- */
+
+.login-box { max-width: 360px; margin: 48px auto; background: #fff; padding: 24px; border-radius: var(--radius); }
+.login-title { text-align: center; color: var(--c-main); margin: 0 0 16px; }
+.login-box .btn-primary { margin-top: 16px; }
+
+/* ---------------- メイン（S02） ---------------- */
+
+.vehicle-bar { margin-bottom: 10px; }
+.vehicle-bar select { font-weight: bold; }
+
+.summary {
+  background: var(--c-card);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.summary-body { display: flex; gap: 16px; align-items: flex-start; }
+.vehicle-image { width: 280px; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: #000; }
+.summary-list { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0; }
+.summary-list dt { font-weight: bold; }
+.summary-list dd { margin: 0; }
+
+.summary-toggle {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: none;
+  padding: 0;
+  background: none;
+  text-align: left;
+  font-weight: bold;
+}
+.summary-toggle .caret { margin-left: auto; transition: transform .2s; }
+.summary.open .summary-toggle .caret { transform: rotate(180deg); }
+
+.tabs { display: flex; gap: 4px; position: sticky; top: 0; z-index: 5; background: var(--c-bg); padding: 4px 0; }
+.tabs button { flex: 1; border-radius: var(--radius) var(--radius) 0 0; }
+.tabs button[aria-selected="true"] { background: var(--c-main); color: #fff; border-color: var(--c-main); }
+
+.panel { background: var(--c-card); border-radius: 0 0 var(--radius) var(--radius); padding: 10px; }
+
+.status-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px; }
+.chip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 110px;
+  padding: 6px 10px;
+  border: 1px solid var(--c-line);
+  border-radius: 6px;
+  background: var(--c-main-light);
+  font-size: 13px;
+  text-align: left;
+}
+.chip:not(:disabled):hover { border-color: var(--c-main); }
+.chip:disabled { opacity: 1; }   /* 移る先のない札も、値は普通に読めるようにする */
+.chip-name { font-weight: bold; }
+.chip-date { color: var(--c-sub); }
+.chip.unreplaced { background: #fff7d6; }
+.chip.unreplaced .chip-date { color: var(--c-unreplaced); font-weight: bold; }
+
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.log-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.log-table th, .log-table td { border-bottom: 1px solid var(--c-line); padding: 6px 8px; white-space: nowrap; text-align: left; }
+.log-table th { background: var(--c-main-light); position: sticky; top: 0; }
+.log-table td.num { text-align: right; }
+.log-table td.center { text-align: center; }
+.log-table td.c-elapsed { font-size: 12px; color: var(--c-sub); }   /* 参考の情報なので、小さく薄く（v1.1） */
+.log-table td.c-events { white-space: normal; min-width: 180px; }
+.log-table td.c-comment { white-space: normal; min-width: 160px; }
+.log-table tbody tr.flash td { animation: flash 2.5s ease-out; }
+@keyframes flash { from { background: #ffe58a; } to { background: transparent; } }
+.log-table tbody tr.clickable { cursor: pointer; }
+.log-table tbody tr.clickable:hover { background: #f0f5fb; }
+
+.pager { display: flex; gap: 6px; justify-content: center; align-items: center; margin: 10px 0; }
+.pager button { padding: 6px 10px; min-width: 40px; }
+.pager select { width: auto; min-width: 7em; }
+.pager .pager-range { padding: 0 6px; white-space: nowrap; }
+
+.add-button { width: 100%; margin-top: 8px; }
+
+.dialog {
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px;
+  width: min(520px, 94vw);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.dialog::backdrop { background: rgba(0, 0, 0, .4); }
+.dialog h2 { font-size: 17px; margin: 0 0 4px; }
+.check-list, .delta-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.check { display: inline-flex; align-items: center; gap: 4px; }
+.delta { display: flex; flex-direction: row !important; align-items: center; gap: 6px; margin: 0 !important; }
+.delta input { width: 90px; }
+
+/* ---------------- 車両（S03）・品目（S04） ---------------- */
+
+.image-field .vehicle-image { display: block; margin: 8px 0; }
+.crop { margin-top: 8px; }
+.crop-canvas { width: 100%; max-width: 480px; aspect-ratio: 4 / 3; touch-action: none; cursor: grab; border-radius: 6px; display: block; }
+
+.items-list { display: flex; flex-direction: column; gap: 8px; }
+.item-card { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--c-line); border-radius: 6px; padding: 8px; }
+.item-move { display: flex; flex-direction: column; gap: 4px; }
+.item-move button { padding: 4px 8px; }
+.item-fields { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.item-fields label { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.item-fields label.check { flex-direction: row; }
+
+/* ---------------- PC とスマホの切替 ---------------- */
+
+@media (min-width: 768px) {
+  .mobile-only { display: none !important; }
+  .add-button { width: auto; min-width: 200px; }
+}
+
+@media (max-width: 767px) {
+  .pc-only { display: none !important; }
+  .summary-body { display: none; flex-direction: column; margin-top: 10px; }
+  .summary.open .summary-body { display: flex; }
+  .vehicle-image { width: 100%; }
+  .log-table th.sticky, .log-table td.sticky { position: sticky; left: 0; background: #fff; z-index: 1; }
+  .log-table th.sticky { background: var(--c-main-light); z-index: 2; }
+  .pager button { padding: 6px 8px; min-width: 36px; }
+}

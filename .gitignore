@@ -1,0 +1,23 @@
+# Motolog（バイクのメンテナンス記録）
+# Copyright (C) 2026 合同会社FIA. All rights reserved.
+# 作成：Takeshi Hakamata
+
+# 機密を含む設定（見本の config.sample.php だけを管理する。N-10）
+/config/config.php
+.env
+
+# サーバで書き込まれるもの（セッション・ログ・車両画像）
+/storage/sessions/*
+/storage/logs/*
+/storage/uploads/*
+!/storage/**/.gitkeep
+
+# DBのダンプ・バックアップ
+*.sql.gz
+*.tar.gz
+/backup/
+
+# OS・エディタ
+Thumbs.db
+.DS_Store
+.vscode/

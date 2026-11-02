@@ -1,0 +1,13 @@
+# Motolog（バイクのメンテナンス記録）
+# Copyright (C) 2026 合同会社FIA. All rights reserved.
+# 作成：Takeshi Hakamata
+#
+# /etc/systemd/system/motolog-backup.service にコピーして使う（サーバ作業手順書 P10-5）。
+
+[Unit]
+Description=Motolog daily backup
+
+[Service]
+Type=oneshot
+User=motolog
+ExecStart=/usr/bin/python3 /var/www/motolog/bin/backup.py

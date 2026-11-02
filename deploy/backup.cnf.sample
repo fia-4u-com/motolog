@@ -1,0 +1,11 @@
+# Motolog（バイクのメンテナンス記録）
+# Copyright (C) 2026 合同会社FIA. All rights reserved.
+# 作成：Takeshi Hakamata
+#
+# /etc/motolog/backup.cnf の見本。サーバ上でコピーし、パスワードを書き込む。
+# 持ち主 motolog、権限 600 にする（パスワードを他のユーザに読ませない）。
+# この見本には値を書かない（git に入るため）。
+
+[mysqldump]
+user=motolog_backup
+password=
